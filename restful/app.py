@@ -148,8 +148,8 @@ if __name__ == '__main__':
     cfg_path = '../models/frozen_inference_graph.pb'
     labels_path = os.path.join('../models/pascal_label_map.pbtxt')
     if not os.path.exists(cfg_path) or not os.path.exists(labels_path):
-        cfg_path = '../object_detection/output/frozen_inference_graph.pb'
-        labels_path = '../object_detection/data/pascal_label_map.pbtxt'
+        cfg_path = '/opt/tf_models/frozen_inference_graph.pb'
+        labels_path = '/opt/tf_models/pascal_label_map.pbtxt'
     mm = Model(cfg_path,labels_path)
 
     app.run(host="0.0.0.0",port=8080,debug=False)  #threaded=True
