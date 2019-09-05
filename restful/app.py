@@ -105,8 +105,26 @@ def info():
                 logger.removeHandler(handler)
                 handler.close()
                 return json.dumps(out_json)
+                
+                
+    x_position = js.get('x_position',None)    
+    y_position = js.get('y_position',None)       
+      
+    if type(x_position) == type(y_position) and (type(x_position)!=type(list())):        
+        x_position=[]
+        y_position=[]        
+        logger.info("no electronic fence!")        
+    elif len(x_position)!=len(y_position)  or (len(x_position) ==len(y_position) and len(x_position) < 3):
+        logger.warning('electronic fence is invalid!!!')
+        x_position=[]
+        y_position=[]        
+    else:         
+        logger.info("electronic fence:"+str(len(y_position))+"poly")
+    #info_str = 'x_position:' + str(x_position) + '   y_position:' + str(y_position)
+    logger.info('x_position:' + str(x_position) + '   y_position:' + str(y_position))             
+    
     start_model_time = time.time()
-    predict_datalist = mm.predict(img_np)
+    predict_datalist = mm.predict(img_np, x_position, y_position)
     end_model_time = time.time() - start_model_time
     logger.info('model time:{}'.format(end_model_time))
     if len(predict_datalist) > 0:
@@ -145,12 +163,21 @@ if __name__ == '__main__':
     #app.logger.addHandler(handler)  #ok  start private log
     '''
     
-    cfg_path = '../models/frozen_inference_graph.pb'
-    labels_path = os.path.join('../models/pascal_label_map.pbtxt')
+    cfg_path ='/opt/tf_models/frozen_inference_graph.pb'   
+    labels_path = os.path.join('/opt/tf_models/pascal_label_map.pbtxt')
     if not os.path.exists(cfg_path) or not os.path.exists(labels_path):
-        cfg_path = '/opt/tf_models/frozen_inference_graph.pb'
-        labels_path = '/opt/tf_models/pascal_label_map.pbtxt'
+        cfg_path = 'models/frozen_inference_graph.pb'
+        labels_path = 'models/pascal_label_map.pbtxt'
     mm = Model(cfg_path,labels_path)
+    
+    #pre_predict
+    x_position=[]
+    y_position=[]
+    for i in range(5):
+        img_np = cv2.imread('./post_test/test_images/20180928_1C1B0D228AF1_00007.jpg')
+        if img_np is None:
+            continue
+        predict_datalist = mm.predict(img_np,x_position,y_position)
 
     app.run(host="0.0.0.0",port=8080,debug=False)  #threaded=True
 

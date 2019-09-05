@@ -1,195 +1,142 @@
-[2019-04-24 04:26:41,059] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:36,110] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,458] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:33,395] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:39,101] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:32,691] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:32,340] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:42,714] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:42,701] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:26,611] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:31,641] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:35,429] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:45,723] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:33,797] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:42,242] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:38,082] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:40,228] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:40,032] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:26,307] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:34,717] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:25:38,034] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:30,573] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:25:41,933] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:31,120] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:47,941] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:30,262] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:36,760] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,821] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:44,154] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:48,387] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:25:48,393] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:33,915] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,655] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:49,069] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:31,620] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:25:47,376] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:28,890] {app.py - app - info:99} - readimage time:0.11530995369
-[2019-04-24 04:26:32,609] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:49,772] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,059] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:30,111] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:45,723] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:46,416] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,498] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:40,228] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:33,395] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:41,933] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:40,711] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:50,688] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:47,941] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:32,340] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:37,668] {app.py - app - info:99} - readimage time:0.205963850021
-[2019-04-24 04:26:36,110] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:42,323] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,330] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:25:48,393] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,458] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:47,376] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:39,101] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,614] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:49,069] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:49,772] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,932] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:33,797] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:46,859] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:31,641] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:46,416] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:42,714] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:50,688] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:35,429] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:45,226] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:49,070] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:38,082] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:34,717] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:26:31,120] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:42,323] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:40,032] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,300] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:36,760] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,821] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:46,859] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:50,171] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,655] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:39,484] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:33,915] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:38,437] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:49,070] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:32,609] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,498] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:43,571] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:40,711] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,059] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:50,627] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:45,508] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:26:36,110] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,668] {app.py - app - info:99} - readimage time:0.205963850021
-[2019-04-24 04:26:41,330] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:37,458] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:46,763] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:50,171] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:39,101] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,545] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:25:53,997] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,614] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:42,714] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:46,575] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,932] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:50,627] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:35,429] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:45,895] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:40,032] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:45,226] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:48,450] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,821] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:52,123] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,300] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:49,144] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:41,655] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:47,593] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:55,426] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:39,484] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:37,498] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:40,711] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:49,574] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:38,437] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:53,995] {app.py - app - info:99} - readimage time:0.163679122925
-[2019-04-24 04:25:53,997] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:52,857] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,330] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:43,571] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:52,829] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:45,762] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:45,508] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:26:37,668] {app.py - app - info:99} - readimage time:0.205963850021
-[2019-04-24 04:25:52,483] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:45,544] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,614] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:51,249] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:55,426] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:51,687] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:53,995] {app.py - app - info:99} - readimage time:0.163679122925
-[2019-04-24 04:26:46,763] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:41,932] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:52,857] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:56,131] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:45,762] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:49,379] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:26:45,226] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,300] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:55,872] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:39,484] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:46,575] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:52,483] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:51,294] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:53,533] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,545] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:25:51,249] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:50,290] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:38,437] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:45,895] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:25:57,426] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:48,450] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:48,739] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:51,687] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:48,096] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:43,571] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:54,193] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:46,080] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:52,123] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:53,372] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:45,508] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:26:47,593] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:00,019] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:56,131] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:55,381] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:25:53,533] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:57,885] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:51,036] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:49,144] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:26:59,539] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:46,763] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:55,750] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:57,426] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:58,952] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:58,569] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:56,185] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:46,575] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:44,545] {app.py - app - info:47} - images path:/opt/models/object_detection/test_images/20180928_1C1B0D228AF1_00007.jpg
-[2019-04-24 04:26:05,192] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:49,574] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:25:54,193] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:57,969] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:52,829] {app.py - app - info:32} - IP:127.0.0.1
-[2019-04-24 04:26:45,895] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
-[2019-04-24 04:25:53,372] {app.py - app - info:34} - model_path:../models/frozen_inference_graph.pb-../models/pascal_label_map.pbtxt
+[2019-09-04 13:55:46,369] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:46,912] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:47,171] {app.py - app - info:99} - readimage time:0.120723962784
+[2019-09-04 13:55:47,378] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:47,872] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:48,385] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:48,391] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:48,393] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:48,398] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:48,396] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:48,436] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:48,435] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:48,624] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:48,626] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:48,628] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:48,690] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:49,085] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:49,096] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:49,109] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:49,387] {app.py - app - info:99} - readimage time:0.675872802734
+[2019-09-04 13:55:49,421] {app.py - app - info:99} - readimage time:0.73859500885
+[2019-09-04 13:55:49,468] {app.py - app - info:99} - readimage time:0.755555868149
+[2019-09-04 13:55:50,412] {app.py - app - info:99} - readimage time:1.69809603691
+[2019-09-04 13:55:50,514] {app.py - app - info:99} - readimage time:1.80151891708
+[2019-09-04 13:55:50,635] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:50,635] {app.py - app - info:99} - readimage time:8.82524800301
+[2019-09-04 13:55:50,646] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:50,644] {app.py - app - info:99} - readimage time:1.53124403954
+[2019-09-04 13:55:50,673] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:51,326] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:51,359] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:51,367] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:51,367] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:51,539] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:51,556] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:51,560] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:51,562] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:51,609] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:51,606] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:51,643] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:51,652] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:52,033] {app.py - app - info:99} - readimage time:0.402709007263
+[2019-09-04 13:55:52,007] {app.py - app - info:99} - readimage time:0.377258062363
+[2019-09-04 13:55:53,930] {app.py - app - info:99} - readimage time:2.28897500038
+[2019-09-04 13:55:53,936] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:53,937] {app.py - app - info:99} - readimage time:2.27656006813
+[2019-09-04 13:55:53,949] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:53,952] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:53,954] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:54,290] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:55,003] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:55,031] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:55,042] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:55,048] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:55,055] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:55,212] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:55,233] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:55,234] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:55,240] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:55,242] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:55,244] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:55,278] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:55,299] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:55,309] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:55,348] {app.py - app - info:99} - readimage time:0.035523891449
+[2019-09-04 13:55:55,349] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:55,387] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:55,404] {app.py - app - info:99} - readimage time:0.0829350948334
+[2019-09-04 13:55:55,424] {app.py - app - info:99} - readimage time:0.0179500579834
+[2019-09-04 13:55:55,433] {app.py - app - info:99} - readimage time:0.115023851395
+[2019-09-04 13:55:56,176] {app.py - app - info:99} - readimage time:0.85503411293
+[2019-09-04 13:55:56,176] {app.py - app - info:99} - readimage time:0.824465990067
+[2019-09-04 13:55:56,337] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:56,338] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:56,176] {app.py - app - info:99} - readimage time:0.834265947342
+[2019-09-04 13:55:56,511] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:56,512] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:56,601] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:56,602] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:56,809] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:56,817] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:56,825] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:56,867] {app.py - app - info:99} - readimage time:0.0320069789886
+[2019-09-04 13:55:57,318] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:57,326] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:57,334] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:57,374] {app.py - app - info:99} - readimage time:0.0313220024109
+[2019-09-04 13:55:57,831] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:57,838] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:57,844] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:57,870] {app.py - app - info:99} - readimage time:0.0198020935059
+[2019-09-04 13:55:58,746] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:58,755] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:58,763] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:58,847] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:58,855] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:58,863] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:59,209] {app.py - app - info:99} - readimage time:7.58357000351
+[2019-09-04 13:55:59,328] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:59,336] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:59,344] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:59,408] {app.py - app - info:99} - readimage time:0.0546040534973
+[2019-09-04 13:55:59,730] {app.py - app - info:99} - readimage time:0.957160949707
+[2019-09-04 13:55:59,841] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:55:59,849] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:55:59,857] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:55:59,908] {app.py - app - info:99} - readimage time:0.0427281856537
+[2019-09-04 13:55:59,909] {app.py - app - info:99} - readimage time:3.27582097054
+[2019-09-04 13:56:00,109] {app.py - app - info:99} - readimage time:3.47536492348
+[2019-09-04 13:56:00,519] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:56:00,528] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:56:00,537] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:56:00,604] {app.py - app - info:99} - readimage time:0.0571961402893
+[2019-09-04 13:56:00,963] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:56:00,972] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:56:00,980] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:56:01,049] {app.py - app - info:99} - readimage time:0.0597789287567
+[2019-09-04 13:56:01,466] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:56:01,475] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:56:01,486] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:56:01,571] {app.py - app - info:99} - readimage time:0.0735790729523
+[2019-09-04 13:56:02,231] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:56:02,240] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:56:02,248] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:56:02,249] {app.py - app - info:99} - readimage time:3.37806296349
+[2019-09-04 13:56:02,343] {app.py - app - info:99} - readimage time:0.0681030750275
+[2019-09-04 13:56:02,474] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:56:02,483] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:56:02,492] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:56:02,577] {app.py - app - info:99} - readimage time:0.0747549533844
+[2019-09-04 13:56:02,986] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:56:02,994] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:56:03,001] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:56:03,079] {app.py - app - info:99} - readimage time:0.0694899559021
+[2019-09-04 13:56:03,516] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:56:03,527] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:56:03,537] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:56:03,644] {app.py - app - info:99} - readimage time:0.0967359542847
+[2019-09-04 13:56:03,994] {app.py - app - info:32} - IP:172.17.0.1
+[2019-09-04 13:56:04,003] {app.py - app - info:34} - model_path:models/frozen_inference_graph.pb-models/pascal_label_map.pbtxt
+[2019-09-04 13:56:04,012] {app.py - app - info:47} - images path:post_test/test_images/20180928_1C1B0D228AF1_00007.jpg
+[2019-09-04 13:56:04,129] {app.py - app - info:99} - readimage time:0.0825340747833

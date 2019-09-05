@@ -20,6 +20,8 @@ cv2.ocl.setUseOpenCL(False)
 
 #tensorflow import ...
 """Functions to export object detection inference graph."""
+
+import cv2 
 from distutils.version import StrictVersion
 import numpy as np
 import os
@@ -56,60 +58,89 @@ class Model():
         self.class_nms_thresh = 0.85
         NUM_CLASSES = 1
         
-        os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+       	# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
         config = tf.ConfigProto()
         #config.gpu_options.allow_growth = True 
         config.gpu_options.per_process_gpu_memory_fraction = 0.03
         
         detection_graph = tf.Graph()
-        with detection_graph.as_default():
-            od_graph_def = tf.GraphDef()
-            with tf.gfile.GFile(PATH_TO_FROZEN_GRAPH, 'rb') as fid:
-                serialized_graph = fid.read()
-                od_graph_def.ParseFromString(serialized_graph)
-                tf.import_graph_def(od_graph_def, name='')
+        with tf.device('/gpu:0'):   
+            with detection_graph.as_default():
+                od_graph_def = tf.GraphDef()
+                with tf.gfile.GFile(PATH_TO_FROZEN_GRAPH, 'rb') as fid:
+                    serialized_graph = fid.read()
+                    od_graph_def.ParseFromString(serialized_graph)
+                    tf.import_graph_def(od_graph_def, name='')
+                    
+                sess = tf.Session(config=config)
                 
-            sess = tf.Session(config=config)
-            
-            # Get handles to input and output tensors
-            ops = tf.get_default_graph().get_operations()
-            all_tensor_names = {output.name for op in ops for output in op.outputs}
-            tensor_dict = {}
-            for key in ['num_detections', 'detection_boxes', 'detection_scores','detection_classes', 'detection_masks']:
-                tensor_name = key + ':0'
-                if tensor_name in all_tensor_names:
-                    tensor_dict[key] = tf.get_default_graph().get_tensor_by_name(tensor_name)
-            if 'detection_masks' in tensor_dict:
-                # The following processing is only for single image
-                detection_boxes = tf.squeeze(tensor_dict['detection_boxes'], [0])
-                detection_masks = tf.squeeze(tensor_dict['detection_masks'], [0])
-                # Reframe is required to translate mask from box coordinates to image coordinates and fit the image size.
-                real_num_detection = tf.cast(tensor_dict['num_detections'][0], tf.int32)
-                detection_boxes = tf.slice(detection_boxes, [0, 0], [real_num_detection, -1])
-                detection_masks = tf.slice(detection_masks, [0, 0, 0], [real_num_detection, -1, -1])
-                detection_masks_reframed = utils_ops.reframe_box_masks_to_image_masks(
-                    detection_masks, detection_boxes, image.shape[0], image.shape[1])
-                detection_masks_reframed = tf.cast(
-                    tf.greater(detection_masks_reframed, 0.5), tf.uint8)
-                # Follow the convention by adding back the batch dimension
-                tensor_dict['detection_masks'] = tf.expand_dims(
-                        detection_masks_reframed, 0)
-            image_tensor = tf.get_default_graph().get_tensor_by_name('image_tensor:0')
+                # Get handles to input and output tensors
+                ops = tf.get_default_graph().get_operations()
+                all_tensor_names = {output.name for op in ops for output in op.outputs}
+                tensor_dict = {}
+                for key in ['num_detections', 'detection_boxes', 'detection_scores','detection_classes', 'detection_masks']:
+                    tensor_name = key + ':0'
+                    if tensor_name in all_tensor_names:
+                        tensor_dict[key] = tf.get_default_graph().get_tensor_by_name(tensor_name)
+                if 'detection_masks' in tensor_dict:
+                    # The following processing is only for single image
+                    detection_boxes = tf.squeeze(tensor_dict['detection_boxes'], [0])
+                    detection_masks = tf.squeeze(tensor_dict['detection_masks'], [0])
+                    # Reframe is required to translate mask from box coordinates to image coordinates and fit the image size.
+                    real_num_detection = tf.cast(tensor_dict['num_detections'][0], tf.int32)
+                    detection_boxes = tf.slice(detection_boxes, [0, 0], [real_num_detection, -1])
+                    detection_masks = tf.slice(detection_masks, [0, 0, 0], [real_num_detection, -1, -1])
+                    detection_masks_reframed = utils_ops.reframe_box_masks_to_image_masks(
+                        detection_masks, detection_boxes, image.shape[0], image.shape[1])
+                    detection_masks_reframed = tf.cast(
+                        tf.greater(detection_masks_reframed, 0.5), tf.uint8)
+                    # Follow the convention by adding back the batch dimension
+                    tensor_dict['detection_masks'] = tf.expand_dims(
+                            detection_masks_reframed, 0)
+                image_tensor = tf.get_default_graph().get_tensor_by_name('image_tensor:0')
 
-            # Run inference
-            self.detection = lambda image : sess.run(tensor_dict, feed_dict={image_tensor: np.expand_dims(image, 0)})
+                # Run inference
+                self.detection = lambda image : sess.run(tensor_dict, feed_dict={image_tensor: np.expand_dims(image, 0)})
         
         #Loading label map
         label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
         categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
         self.category_index = label_map_util.create_category_index(categories)  
+        
+        self.crossAreaRatios = 0.1
+        self.x_position = []
+        self.y_position = []
+        self.x_position_max = 0
+        self.x_position_min = 0
+        self.y_position_max = 0
+        self.y_position_min = 0
+        self.position_num = 0 
+        self.PolyDebug = False
+        if self.PolyDebug == True:
+            self.img=np.zeros((1080,1920,3))            
 
         print ("model is ok")
 
-    def predict(self,im):
+    def predict(self,im, x_position, y_position):
         #print('type(im)')
         #print(type(im))
         #class_str_list = []
+        
+        self.x_position = x_position
+        self.y_position = y_position
+        if len(self.x_position) > 2 :
+            self.x_position_max = max(self.x_position)
+            self.x_position_min = min(self.x_position)
+            self.y_position_max = max(self.y_position)
+            self.y_position_min = min(self.y_position)
+            self.position_num = len(self.x_position)
+            
+        if (self.PolyDebug == True and self.position_num > 2):
+            ll=[]
+            for i in range(self.position_num):
+                ll.append([self.x_position[i],self.y_position[i]])
+            cv2.fillConvexPoly(self.img, np.array(ll, np.int32), (255,255,0))          
+        
         data_list = []
         
         #image_np = self.load_image_into_numpy_array(im)
@@ -187,6 +218,14 @@ class Model():
                     class_str = self.category_index[classes[i]]['name']
                 else:
                     class_str = 'N/A'
+                    
+                
+                if len(self.x_position) > 2 :
+                    bbox_x = [int(bbox[0]), int(bbox[2]), int(bbox[2]), int(bbox[0])]
+                    bbox_y = [int(bbox[1]), int(bbox[1]), int(bbox[3]), int(bbox[3])]
+                    if self.IsFilterByElectronicFence(bbox_x, bbox_y):
+                        continue
+                    
                 
                 single_data = {"cls":class_str,"score":float('%.2f' % score),"bbox":{"xmin":int(bbox[1]),"ymin":int(bbox[0]),"xmax":int(bbox[3]),"ymax":int(bbox[2])}}
                 #print(single_data)
@@ -202,8 +241,9 @@ class Model():
         #cv2.imwrite("test2.jpg", result2)
         
         #construcrion - data_list
-
-        
+        if self.PolyDebug == True:
+            cv2.imwrite("1.jpg", self.img)
+            
         return data_list
         
     def convert_from_cls_format(self,cls_boxes, cls_segms, cls_keyps):
@@ -309,4 +349,194 @@ class Model():
         if 'detection_masks' in output_dict:
             output_dict['detection_masks'] = output_dict['detection_masks'][0]
         return output_dict
+        
+        
+    def IsFilterByElectronicFence(self,bbox_x, bbox_y):
+        
+        if self.PolyDebug == True:
+            self.drawInfo(bbox_x, bbox_y)
+    
+        x_position_max = max(bbox_x)
+        x_position_min = min(bbox_x)
+        y_position_max = max(bbox_y)
+        y_position_min = min(bbox_y)        
+               
+        #在多边形的外围，需要过滤掉
+        if ((y_position_max < self.y_position_min)or(y_position_min > self.y_position_max)
+            or(x_position_max < self.x_position_min)or(x_position_min > self.x_position_max)):
+            print("box min max out of poly:", bbox_x, bbox_y)
+            return True
+        
+        #依次判断矩形框的每个点是否在多边形内
+        Inpoly_rst=[0,0,0,0]
+        for i in range(4):
+            Inpoly_rst[i] = self.IsPtInPoly(bbox_x[i],bbox_y[i])
+        
+        '''CenterPt_rst = self.IsPtInPoly((bbox_x[0]+bbox_x[1])/2,(bbox_y[0]+bbox_y[3])/2)
+        
+        #四个顶点全部在多边形外，则在多边形外部，需要过滤掉
+        if Inpoly_rst==[0,0,0,0]:
+            if CenterPt_rst==0:
+                print("box out of poly, center out of poly:", bbox_x, bbox_y)
+                return True
+            else:
+                PolyArea = self.calcPolyArea(self.x_position,self.y_position)
+                crossAreaRatios = PolyArea/((bbox_x[1]-bbox_x[0]) *(bbox_y[3] - bbox_y[0])+0.001)
+                print("box out of poly, center in poly:", bbox_x, bbox_y)
+                print("crossAreaRatios:", crossAreaRatios)
+                if (crossAreaRatios < self.crossAreaRatios):
+                    
+                    return True
+                else:
+                    return False '''
+                
+        
+        #四个顶点全部在多边形内，则在多边形内部，不需要过滤掉
+        if Inpoly_rst==[1,1,1,1]:
+            print("box in poly:", bbox_x, bbox_y)
+            return False 
+        
+        if (self.InPolyAreaRatios(bbox_x,bbox_y,Inpoly_rst) > self.crossAreaRatios):
+            return False
+        else:               
+            return True         
+    
+    def IsPtInPoly(self,x,y):
+        if ((y < self.y_position_min)or(y > self.y_position_max)
+            or(x < self.x_position_min)or(x > self.x_position_max)):
+            return 0
+        
+        rst = 0        
+        j = self.position_num -1
+        for i in range(self.position_num):
+            if ((self.y_position[i] > y) != (self.y_position[j] > y)) and (x < ((self.x_position[j]-self.x_position[i])*(y-self.y_position[i])/(self.y_position[j]-self.y_position[i]++0.00001) + self.x_position[i])):
+                if rst == 0:
+                    rst = 1
+                else:
+                    rst = 0
+            j = i             
+        return rst
+     
+    def calcPolyArea(self,x_pos,y_pos):
+        PolyArea = 0
+        
+        if len(x_pos) < 3:
+            return 0           
+        
+        j = len(x_pos) -1
+        for i in range(len(x_pos)):            
+            PolyArea = PolyArea +  (x_pos[i]*y_pos[j] - x_pos[j]*y_pos[i])
+            j = i
+            
+        PolyArea = PolyArea/2.0 
+        
+        return abs(PolyArea)
+
+     
+    def InPolyAreaRatios(self,bbox_x, bbox_y, Inpoly_rst):       
+        
+        #计算矩形和多边形的交点,该函数的矩形框必然是和多边形相交的
+        print("box out or cross Poly:", bbox_x,bbox_y)
+        box_x =[bbox_x[0],bbox_x[1]]
+        box_y =[bbox_y[0],bbox_y[3]]
+        
+        cross_info_lst=[]
+        for x in box_x:        
+            j = self.position_num -1        
+            for i in range(self.position_num):
+                if ((self.x_position[i] > x) != (self.x_position[j] > x)):                    
+                    cross_y = int((self.y_position[j]-self.y_position[i])*(x-self.x_position[i])/(self.x_position[j]-self.x_position[i]+0.00001)+ self.y_position[i])
+                    if ((cross_y < box_y[1]) and (cross_y > box_y[0])):
+                        cross_info = [x,cross_y]
+                        cross_info_lst.append(cross_info)
+                j=i
+        
+        for y in box_y:        
+            j = self.position_num -1        
+            for i in range(self.position_num):
+                if ((self.y_position[i] > y) != (self.y_position[j] > y)):
+                    #print("y cross:",self.y_position[i],self.y_position[j],y)
+                    cross_x = int((self.x_position[j]-self.x_position[i])*(y-self.y_position[i])/(self.y_position[j]-self.y_position[i]+0.00001) + self.x_position[i])
+                    #print(self.x_position[j],self.x_position[i],self.y_position[j],self.y_position[i])
+                    #print("x cross:",cross_x,box_x[0], box_x[1])
+                    if ((cross_x < box_x[1]) and (cross_x > box_x[0])):
+                        cross_info = [cross_x, y]
+                        cross_info_lst.append(cross_info)
+                j=i
+        
+        print("cross_info_lst",cross_info_lst)
+        x_pos,y_pos = self.SortCrossPtAndBoxPt(cross_info_lst,bbox_x,bbox_y,Inpoly_rst) 
+        print("SortCrossPtAndBoxPt x_pos after:", x_pos)
+        print("SortCrossPtAndBoxPt y_pos after", y_pos)  
+        
+        PolyArea = self.calcPolyArea(x_pos,y_pos)
+        crossAreaRatios = PolyArea/((bbox_x[1]-bbox_x[0]) *(bbox_y[3] - bbox_y[0])+0.00001)
+        print("crossAreaRatios:", crossAreaRatios)      
+        return crossAreaRatios        
+        
+        
+    def SortCrossPtAndBoxPt(self, cross_info_lst,bbox_x,bbox_y,Inpoly_rst):
+        x_pos=[]
+        y_pos=[]
+        
+        #加入在多边形内的矩形框的顶点
+        for i in range(4):
+            if Inpoly_rst[i] == 1:
+                x_pos.append(bbox_x[i])
+                y_pos.append(bbox_y[i])        
+        
+        #加入矩形框和多边形的交点
+        for cross_pt in cross_info_lst:                     
+            x_pos.append(cross_pt[0])
+            y_pos.append(cross_pt[1])             
+        
+        #加入在矩形框内的多边形的顶点
+        for i in range(self.position_num):            
+            if (((self.x_position[i]< bbox_x[1]) and (self.x_position[i]> bbox_x[0])) 
+                and((self.y_position[i]< bbox_y[3]) and (self.y_position[i]> bbox_y[0]))):                 
+                x_pos.append(self.x_position[i])
+                y_pos.append(self.y_position[i])
+        
+        print("SortCrossPtAndBoxPt x_pos before:", x_pos)
+        print("SortCrossPtAndBoxPt y_pos before", y_pos)        
+        
+        return self.ClockwiseSortPoints(x_pos,y_pos)
+        
+    def ClockwiseSortPoints(self, x_pos,y_pos):
+        num = len(x_pos)
+        if num < 3:
+            return  x_pos,y_pos
+        acc_x = 0
+        acc_y = 0  
+        for i in range(num):
+            acc_x = acc_x + x_pos[i]
+            acc_y = acc_y + y_pos[i]
+        centerO = [acc_x/num, acc_y/num]
+        
+        for i in range(num):
+            for j in range(num-i-1):
+                if self.PointCmp([x_pos[j],y_pos[j]],[x_pos[j+1],y_pos[j+1]], centerO):
+                    pt_tmp= [x_pos[j],y_pos[j]]
+                    x_pos[j] = x_pos[j+1]
+                    y_pos[j] = y_pos[j+1]
+                    x_pos[j+1] = pt_tmp[0]
+                    y_pos[j+1] = pt_tmp[1]  
+        return  x_pos,y_pos
+    
+    def PointCmp(self,pt1,pt2,centerO):
+        #向量叉乘
+        det = (pt1[0] - centerO[0])*(pt2[1] - centerO[1])- (pt1[1] - centerO[1])*(pt2[0] - centerO[0])
+        if det < 0:
+            return True
+        if det > 0:
+            return False
+            
+        #向量OA和向量OB共线，以距离判断大小
+        d1 = pow((pt1[0] - centerO[0]),2)+pow((pt1[1] - centerO[1]),2)
+        d2 = pow((pt2[0] - centerO[0]),2)+pow((pt2[1] - centerO[1]),2)
+        
+        return d1 > d2
+
+    def drawInfo(self,bbox_x, bbox_y):
+        cv2.rectangle(self.img,(bbox_x[0],bbox_y[0]),(bbox_x[1],bbox_y[3]),(255,0,255),2)
     

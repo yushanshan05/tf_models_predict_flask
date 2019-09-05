@@ -127,35 +127,35 @@ PATH_IMAGES_OUT_DIR = 'test_images/out'
 config = tf.ConfigProto()
 #config.gpu_options.allow_growth = True 
 config.gpu_options.per_process_gpu_memory_fraction = 0.04
- 
-with detection_graph.as_default():
-  with tf.Session(config=config) as sess:
-  
-    #for image_path in TEST_IMAGE_PATHS:
-    for image_path in images_files:
-      image = Image.open(os.path.join(PATH_IMAGES_DIR,image_path))
-      # the array based representation of the image will be used later in order to prepare the
-      # result image with boxes and labels on it.
-      image_np = load_image_into_numpy_array(image)
-      # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-      image_np_expanded = np.expand_dims(image_np, axis=0)
-      # Actual detection.
-      output_dict = run_inference_for_single_image(image_np, sess)
-      # Visualization of the results of a detection.
-      outimage = vis_util.visualize_boxes_and_labels_on_image_array(
-        image_np,
-        output_dict['detection_boxes'],
-        output_dict['detection_classes'],
-        output_dict['detection_scores'],
-        category_index,
-        instance_masks=output_dict.get('detection_masks'),
-        use_normalized_coordinates=True,
-        min_score_thresh=.01,
-        line_thickness=2)
+with tf.device('/gpu:0'):   
+    with detection_graph.as_default():
+      with tf.Session(config=config) as sess:
       
+        #for image_path in TEST_IMAGE_PATHS:
+        for image_path in images_files:
+          image = Image.open(os.path.join(PATH_IMAGES_DIR,image_path))
+          # the array based representation of the image will be used later in order to prepare the
+          # result image with boxes and labels on it.
+          image_np = load_image_into_numpy_array(image)
+          # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+          image_np_expanded = np.expand_dims(image_np, axis=0)
+          # Actual detection.
+          output_dict = run_inference_for_single_image(image_np, sess)
+          # Visualization of the results of a detection.
+          outimage = vis_util.visualize_boxes_and_labels_on_image_array(
+            image_np,
+            output_dict['detection_boxes'],
+            output_dict['detection_classes'],
+            output_dict['detection_scores'],
+            category_index,
+            instance_masks=output_dict.get('detection_masks'),
+            use_normalized_coordinates=True,
+            min_score_thresh=.01,
+            line_thickness=2)
+          
+          
+          outPILImage = Image.fromarray(outimage)
+          outPILImage.save(os.path.join(PATH_IMAGES_OUT_DIR,image_path))
       
-      outPILImage = Image.fromarray(outimage)
-      outPILImage.save(os.path.join(PATH_IMAGES_OUT_DIR,image_path))
-  
       
   
