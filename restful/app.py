@@ -23,7 +23,7 @@ def info():
     # logger add
     
     formatter = logging.Formatter("[%(asctime)s] {%(pathname)s - %(module)s - %(funcName)s:%(lineno)d} - %(message)s")
-    handler = RotatingFileHandler('./log/oilsteal.log', maxBytes=2000000, backupCount=10)
+    handler = RotatingFileHandler('./log/oilsteal.log', maxBytes=9000000, backupCount=10)
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     
@@ -39,8 +39,18 @@ def info():
     #return json init
     out_json = {"data":[]}
     
+    #add by ys:temp
+    a=str(js)
+    js=eval(a)
+    
     #js is not dict return []
+    imagepath = ''
     info_str = ''
+    #temp
+    '''logger.info(type(js))
+    logger.info(js)
+    logger.info(isinstance(js,dict))
+    logger.info(js.has_key('data'))'''
     if isinstance(js,dict) and js.has_key('data') :
         imagepath = js.get('data',None)
         info_str = 'images path:' + imagepath
@@ -121,10 +131,13 @@ def info():
     else:         
         logger.info("electronic fence:"+str(len(y_position))+"poly")
     #info_str = 'x_position:' + str(x_position) + '   y_position:' + str(y_position)
-    logger.info('x_position:' + str(x_position) + '   y_position:' + str(y_position))             
+    #logger.info('x_position:' + str(x_position) + '   y_position:' + str(y_position))             
     
     start_model_time = time.time()
-    predict_datalist = mm.predict(img_np, x_position, y_position)
+    
+    #logger.info('imagepath:' + imagepath+'x_position:' + str(x_position) + '   y_position:' + str(y_position))
+    
+    predict_datalist = mm.predict(img_np, x_position, y_position)    
     end_model_time = time.time() - start_model_time
     logger.info('model time:{}'.format(end_model_time))
     if len(predict_datalist) > 0:
@@ -135,7 +148,7 @@ def info():
             single_data = {}
             single_data = predict_datalist[i]
             res_log.append(single_data['cls'])
-        logger.info(res_log)
+        #logger.info(res_log)
         out_json["data"] = predict_datalist
     else:
         logger.warning('the images has not right bbox!!!')
@@ -173,11 +186,11 @@ if __name__ == '__main__':
     #pre_predict
     x_position=[]
     y_position=[]
-    for i in range(5):
+    for i in range(5):        
         img_np = cv2.imread('./post_test/test_images/20180928_1C1B0D228AF1_00007.jpg')
         if img_np is None:
             continue
-        predict_datalist = mm.predict(img_np,x_position,y_position)
+        predict_datalist = mm.predict(img_np, x_position,y_position)
 
     app.run(host="0.0.0.0",port=8080,debug=False)  #threaded=True
 

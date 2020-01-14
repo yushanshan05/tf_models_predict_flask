@@ -1,25 +1,7 @@
 #coding=utf-8
 import numpy as np
 import json
-
-'''
-#detectron import ...
-from caffe2.python import workspace
-
-from core.config import merge_cfg_from_file
-import core.test_engine as infer_engine
-import datasets.dummy_datasets as dummy_datasets
-import utils.c2 as c2_utils
-import core.test_engine as infer_engine
-
-c2_utils.import_detectron_ops()
-# OpenCL may be enabled by default in OpenCV3; disable it because it's not
-# thread safe and causes unwanted GPU memory allocations.
-cv2.ocl.setUseOpenCL(False)
-'''
-
-#tensorflow import ...
-"""Functions to export object detection inference graph."""
+import logging
 
 import cv2 
 from distutils.version import StrictVersion
@@ -49,6 +31,8 @@ from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util 
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+model_logger = logging.getLogger('oilsteal.model')
+
 
 class Model():
     
@@ -107,14 +91,7 @@ class Model():
         categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
         self.category_index = label_map_util.create_category_index(categories)  
         
-        self.crossAreaRatios = 0.1
-        self.x_position = []
-        self.y_position = []
-        self.x_position_max = 0
-        self.x_position_min = 0
-        self.y_position_max = 0
-        self.y_position_min = 0
-        self.position_num = 0 
+        self.crossAreaRatios = 0.03
         self.PolyDebug = False
         if self.PolyDebug == True:
             self.img=np.zeros((1080,1920,3))            
@@ -122,24 +99,17 @@ class Model():
         print ("model is ok")
 
     def predict(self,im, x_position, y_position):
-        #print('type(im)')
-        #print(type(im))
-        #class_str_list = []
         
-        self.x_position = x_position
-        self.y_position = y_position
-        if len(self.x_position) > 2 :
-            self.x_position_max = max(self.x_position)
-            self.x_position_min = min(self.x_position)
-            self.y_position_max = max(self.y_position)
-            self.y_position_min = min(self.y_position)
-            self.position_num = len(self.x_position)
-            
-        if (self.PolyDebug == True and self.position_num > 2):
+        position_num = 0         
+        if len(x_position) > 2 :            
+            position_num = len(x_position)
+        
+        if (self.PolyDebug == True and position_num > 2):
             ll=[]
-            for i in range(self.position_num):
-                ll.append([self.x_position[i],self.y_position[i]])
-            cv2.fillConvexPoly(self.img, np.array(ll, np.int32), (255,255,0))          
+            for i in range(position_num):
+                ll.append([x_position[i],y_position[i]])
+            cv2.fillConvexPoly(self.img, np.array(ll, np.int32), (255,255,0)) 
+        
         
         data_list = []
         
@@ -149,39 +119,21 @@ class Model():
         image_np_expanded = np.expand_dims(im, axis=0)
         # Actual detection.
         output_dict = self.run_inference_for_single_image(im)
-        #print(output_dict)
-        '''
-        with c2_utils.NamedCudaScope(self.gpu_id):
-            cls_boxes, cls_segms, cls_keyps = infer_engine.im_detect_all(self.model, im, None, None
-            )
-            
-        #get box classes
-        if isinstance(cls_boxes, list):
-            boxes, segms, keypoints, classes = self.convert_from_cls_format(cls_boxes, cls_segms, cls_keyps)
-        if boxes is None or boxes.shape[0] == 0 or max(boxes[:, 4]) < self.score_thresh:
-            return data_list
-        #get score
-        areas = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
-        sorted_inds = np.argsort(-areas)
-        '''
+        #print(output_dict)       
+        
         
         num = 0
         for i in xrange(output_dict['detection_scores'].shape[0]):
             #print(output_dict['detection_scores'][i])
-            if output_dict['detection_scores'][i] < 0.1: #self.score_thresh:
+            if output_dict['detection_scores'][i] < self.score_thresh:
                 num = i
                 break;
         #print (num)
-
-        scorse = output_dict['detection_scores'][0:num]
-        #print('detection_scores')
-        #print(output_dict['detection_scores'][0:num])
-        boxes = output_dict['detection_boxes'][0:num,:]
-        #print('detection_boxes')
-        #print(output_dict['detection_boxes'][0:num])
+        num = output_dict['detection_scores'].shape[0]
+        scorse = output_dict['detection_scores'][0:num]       
+        boxes = output_dict['detection_boxes'][0:num,:]        
         classes =  output_dict['detection_classes'][0:num]
-        #print('detection_classes')
-        #print(output_dict['detection_classes'][0:num])
+        
         if boxes is None or boxes.shape[0] == 0 or max(scorse[:]) < self.score_thresh:
             return data_list
             
@@ -202,13 +154,14 @@ class Model():
         
         #print('scorse')
         #print(scorse)
+        
+        #print("#######nms before:",len(sorted_inds))
         if (len(sorted_inds) > 0):        
             nmsIndex = self.nms_between_classes(boxes, scorse,self.class_nms_thresh)  #阈值为0.9，阈值越大，过滤的越少 
-            #print(nmsIndex)
+            #print(nmsIndex)            
+            
             for i in xrange(len(nmsIndex)):                
-                bbox = boxes[nmsIndex[i], :4]
-                #print('bbox')
-                #print(bbox)
+                bbox = boxes[nmsIndex[i], :4]                
                 score = scorse[nmsIndex[i]]
                 if score < self.score_thresh:
                     continue
@@ -218,28 +171,18 @@ class Model():
                     class_str = self.category_index[classes[i]]['name']
                 else:
                     class_str = 'N/A'
-                    
                 
-                if len(self.x_position) > 2 :
-                    bbox_x = [int(bbox[0]), int(bbox[2]), int(bbox[2]), int(bbox[0])]
-                    bbox_y = [int(bbox[1]), int(bbox[1]), int(bbox[3]), int(bbox[3])]
-                    if self.IsFilterByElectronicFence(bbox_x, bbox_y):
+                if len(x_position) > 2 :
+                    bbox_x = [int(bbox[1]), int(bbox[3]), int(bbox[3]), int(bbox[1])]
+                    bbox_y = [int(bbox[0]), int(bbox[0]), int(bbox[2]), int(bbox[2])]
+                    if self.IsFilterByElectronicFence(bbox_x, bbox_y, x_position, y_position):
                         continue
                     
                 
                 single_data = {"cls":class_str,"score":float('%.2f' % score),"bbox":{"xmin":int(bbox[1]),"ymin":int(bbox[0]),"xmax":int(bbox[3]),"ymax":int(bbox[2])}}
                 #print(single_data)
-                data_list.append(single_data)        
-        
-                '''cv2.rectangle(result2,(int(bbox[0]),int(bbox[1])),(int(bbox[2]),int(bbox[3])),(255,255,0),1)
-                font = cv2.FONT_HERSHEY_SIMPLEX
-                ((txt_w, txt_h), _) = cv2.getTextSize(class_str, font, 0.55, 1)            
-                txt_tl = int(bbox[0]), int(bbox[1]) - int(0.3 * txt_h)
-                cv2.putText(result2, class_str, txt_tl, font, 0.55, (218, 227, 218), lineType=cv2.LINE_AA)
-                txt_tl = int(bbox[0])+txt_w, int(bbox[1]) - int(0.3 * txt_h)
-                cv2.putText(result2, ('%.2f' % score), txt_tl, font, 0.35, (218, 227, 218), lineType=cv2.LINE_AA)'''
-        #cv2.imwrite("test2.jpg", result2)
-        
+                data_list.append(single_data)  
+                
         #construcrion - data_list
         if self.PolyDebug == True:
             cv2.imwrite("1.jpg", self.img)
@@ -351,10 +294,25 @@ class Model():
         return output_dict
         
         
-    def IsFilterByElectronicFence(self,bbox_x, bbox_y):
+    def IsFilterByElectronicFence(self,bbox_x, bbox_y, x_position, y_position):
         
         if self.PolyDebug == True:
             self.drawInfo(bbox_x, bbox_y)
+            
+        model_logger.info("electornic: x:{}, y:{}".format(x_position,y_position))
+            
+        x_position_max_e = 0
+        x_position_min_e = 0
+        y_position_max_e = 0
+        y_position_min_e = 0
+        position_num_e = 0 
+        
+        if len(x_position) > 2 :
+            x_position_max_e = max(x_position)
+            x_position_min_e = min(x_position)
+            y_position_max_e = max(y_position)
+            y_position_min_e = min(y_position)
+            position_num_e = len(x_position)
     
         x_position_max = max(bbox_x)
         x_position_min = min(bbox_x)
@@ -362,15 +320,16 @@ class Model():
         y_position_min = min(bbox_y)        
                
         #在多边形的外围，需要过滤掉
-        if ((y_position_max < self.y_position_min)or(y_position_min > self.y_position_max)
-            or(x_position_max < self.x_position_min)or(x_position_min > self.x_position_max)):
-            print("box min max out of poly:", bbox_x, bbox_y)
+        if ((y_position_max < y_position_min_e)or(y_position_min > y_position_max_e)
+            or(x_position_max < x_position_min_e)or(x_position_min > x_position_max_e)):
+            #print("box min max out of poly:", bbox_x, bbox_y)
+            model_logger.info("box min max out of poly")
             return True
         
         #依次判断矩形框的每个点是否在多边形内
         Inpoly_rst=[0,0,0,0]
         for i in range(4):
-            Inpoly_rst[i] = self.IsPtInPoly(bbox_x[i],bbox_y[i])
+            Inpoly_rst[i] = self.IsPtInPoly(bbox_x[i],bbox_y[i],x_position, y_position)
         
         '''CenterPt_rst = self.IsPtInPoly((bbox_x[0]+bbox_x[1])/2,(bbox_y[0]+bbox_y[3])/2)
         
@@ -393,23 +352,38 @@ class Model():
         
         #四个顶点全部在多边形内，则在多边形内部，不需要过滤掉
         if Inpoly_rst==[1,1,1,1]:
-            print("box in poly:", bbox_x, bbox_y)
+            #print("all box in poly:", bbox_x, bbox_y)
+            model_logger.info("all box in poly")
             return False 
         
-        if (self.InPolyAreaRatios(bbox_x,bbox_y,Inpoly_rst) > self.crossAreaRatios):
+        if (self.InPolyAreaRatios(bbox_x,bbox_y,Inpoly_rst,x_position, y_position) > self.crossAreaRatios):
             return False
         else:               
             return True         
     
-    def IsPtInPoly(self,x,y):
-        if ((y < self.y_position_min)or(y > self.y_position_max)
-            or(x < self.x_position_min)or(x > self.x_position_max)):
+    def IsPtInPoly(self,x,y,x_position, y_position):
+        
+        x_position_max_e = 0
+        x_position_min_e = 0
+        y_position_max_e = 0
+        y_position_min_e = 0
+        position_num_e = 0 
+        
+        if len(x_position) > 2 :
+            x_position_max_e = max(x_position)
+            x_position_min_e = min(x_position)
+            y_position_max_e = max(y_position)
+            y_position_min_e = min(y_position)
+            position_num_e = len(x_position)
+            
+        if ((y < y_position_min_e)or(y > y_position_max_e)
+            or(x < x_position_min_e)or(x > x_position_max_e)):
             return 0
         
         rst = 0        
-        j = self.position_num -1
-        for i in range(self.position_num):
-            if ((self.y_position[i] > y) != (self.y_position[j] > y)) and (x < ((self.x_position[j]-self.x_position[i])*(y-self.y_position[i])/(self.y_position[j]-self.y_position[i]++0.00001) + self.x_position[i])):
+        j = position_num_e -1
+        for i in range(position_num_e):
+            if ((y_position[i] > y) != (y_position[j] > y)) and (x < ((x_position[j]-x_position[i])*(y-y_position[i])/(y_position[j]-y_position[i]++0.00001) + x_position[i])):
                 if rst == 0:
                     rst = 1
                 else:
@@ -433,49 +407,68 @@ class Model():
         return abs(PolyArea)
 
      
-    def InPolyAreaRatios(self,bbox_x, bbox_y, Inpoly_rst):       
+    def InPolyAreaRatios(self,bbox_x, bbox_y, Inpoly_rst,x_position, y_position):       
+        
+        x_position_max_e = 0
+        x_position_min_e = 0
+        y_position_max_e = 0
+        y_position_min_e = 0
+        position_num_e = 0 
+        
+        if len(x_position) > 2 :
+            x_position_max_e = max(x_position)
+            x_position_min_e = min(x_position)
+            y_position_max_e = max(y_position)
+            y_position_min_e = min(y_position)
+            position_num_e = len(x_position)
         
         #计算矩形和多边形的交点,该函数的矩形框必然是和多边形相交的
-        print("box out or cross Poly:", bbox_x,bbox_y)
+        #print("box out or cross Poly:", bbox_x,bbox_y)
+        model_logger.info("box out or cross Poly: x:{}, y:{}".format(bbox_x,bbox_y))
+        
         box_x =[bbox_x[0],bbox_x[1]]
         box_y =[bbox_y[0],bbox_y[3]]
         
         cross_info_lst=[]
         for x in box_x:        
-            j = self.position_num -1        
-            for i in range(self.position_num):
-                if ((self.x_position[i] > x) != (self.x_position[j] > x)):                    
-                    cross_y = int((self.y_position[j]-self.y_position[i])*(x-self.x_position[i])/(self.x_position[j]-self.x_position[i]+0.00001)+ self.y_position[i])
+            j = position_num_e -1        
+            for i in range(position_num_e):
+                if ((x_position[i] > x) != (x_position[j] > x)):                    
+                    cross_y = (y_position[j]-y_position[i])*(x-x_position[i])/(x_position[j]-x_position[i]+0.00001)+ y_position[i]
                     if ((cross_y < box_y[1]) and (cross_y > box_y[0])):
-                        cross_info = [x,cross_y]
+                        cross_info = [x,int(cross_y)]
                         cross_info_lst.append(cross_info)
                 j=i
         
         for y in box_y:        
-            j = self.position_num -1        
-            for i in range(self.position_num):
-                if ((self.y_position[i] > y) != (self.y_position[j] > y)):
+            j = position_num_e -1        
+            for i in range(position_num_e):
+                if ((y_position[i] > y) != (y_position[j] > y)):
                     #print("y cross:",self.y_position[i],self.y_position[j],y)
-                    cross_x = int((self.x_position[j]-self.x_position[i])*(y-self.y_position[i])/(self.y_position[j]-self.y_position[i]+0.00001) + self.x_position[i])
+                    cross_x = (x_position[j]-x_position[i])*(y-y_position[i])/(y_position[j]-y_position[i]+0.00001) + x_position[i]
                     #print(self.x_position[j],self.x_position[i],self.y_position[j],self.y_position[i])
                     #print("x cross:",cross_x,box_x[0], box_x[1])
                     if ((cross_x < box_x[1]) and (cross_x > box_x[0])):
-                        cross_info = [cross_x, y]
+                        cross_info = [int(cross_x), y]
                         cross_info_lst.append(cross_info)
                 j=i
         
-        print("cross_info_lst",cross_info_lst)
-        x_pos,y_pos = self.SortCrossPtAndBoxPt(cross_info_lst,bbox_x,bbox_y,Inpoly_rst) 
-        print("SortCrossPtAndBoxPt x_pos after:", x_pos)
-        print("SortCrossPtAndBoxPt y_pos after", y_pos)  
+        #print("cross_info_lst",cross_info_lst)
+        model_logger.info("cross_info_lst:{}".format(cross_info_lst))
+        x_pos,y_pos = self.SortCrossPtAndBoxPt(cross_info_lst,bbox_x,bbox_y,Inpoly_rst,x_position, y_position) 
+        #print("SortCrossPtAndBoxPt x_pos after:", x_pos)
+        #print("SortCrossPtAndBoxPt y_pos after", y_pos)
+        model_logger.info("SortCrossPtAndBoxPt x_pos after:{}".format(x_pos))
+        model_logger.info("SortCrossPtAndBoxPt y_pos after:{}".format(y_pos))
         
         PolyArea = self.calcPolyArea(x_pos,y_pos)
         crossAreaRatios = PolyArea/((bbox_x[1]-bbox_x[0]) *(bbox_y[3] - bbox_y[0])+0.00001)
-        print("crossAreaRatios:", crossAreaRatios)      
+        #print("crossAreaRatios:", crossAreaRatios)
+        model_logger.info("crossAreaRatios:{}".format(crossAreaRatios))        
         return crossAreaRatios        
         
         
-    def SortCrossPtAndBoxPt(self, cross_info_lst,bbox_x,bbox_y,Inpoly_rst):
+    def SortCrossPtAndBoxPt(self, cross_info_lst,bbox_x,bbox_y,Inpoly_rst,x_position, y_position):
         x_pos=[]
         y_pos=[]
         
@@ -491,19 +484,22 @@ class Model():
             y_pos.append(cross_pt[1])             
         
         #加入在矩形框内的多边形的顶点
-        for i in range(self.position_num):            
-            if (((self.x_position[i]< bbox_x[1]) and (self.x_position[i]> bbox_x[0])) 
-                and((self.y_position[i]< bbox_y[3]) and (self.y_position[i]> bbox_y[0]))):                 
-                x_pos.append(self.x_position[i])
-                y_pos.append(self.y_position[i])
+        for i in range(len(x_position)):            
+            if (((x_position[i]< bbox_x[1]) and (x_position[i]> bbox_x[0])) 
+                and((y_position[i]< bbox_y[3]) and (y_position[i]> bbox_y[0]))):                 
+                x_pos.append(x_position[i])
+                y_pos.append(y_position[i])
         
-        print("SortCrossPtAndBoxPt x_pos before:", x_pos)
-        print("SortCrossPtAndBoxPt y_pos before", y_pos)        
+        #print("SortCrossPtAndBoxPt x_pos before:", x_pos)
+        #print("SortCrossPtAndBoxPt y_pos before", y_pos)
+        model_logger.info("SortCrossPtAndBoxPt x_pos before:{}".format(x_pos))
+        model_logger.info("SortCrossPtAndBoxPt y_pos before:{}".format(y_pos))
         
         return self.ClockwiseSortPoints(x_pos,y_pos)
         
     def ClockwiseSortPoints(self, x_pos,y_pos):
         num = len(x_pos)
+        #print("num:", num)
         if num < 3:
             return  x_pos,y_pos
         acc_x = 0
@@ -513,19 +509,39 @@ class Model():
             acc_y = acc_y + y_pos[i]
         centerO = [acc_x/num, acc_y/num]
         
+        
         for i in range(num):
             for j in range(num-i-1):
-                if self.PointCmp([x_pos[j],y_pos[j]],[x_pos[j+1],y_pos[j+1]], centerO):
+                if self.PointCmp([x_pos[j],y_pos[j]],[x_pos[j+1],y_pos[j+1]], centerO):                    
                     pt_tmp= [x_pos[j],y_pos[j]]
                     x_pos[j] = x_pos[j+1]
                     y_pos[j] = y_pos[j+1]
                     x_pos[j+1] = pt_tmp[0]
-                    y_pos[j+1] = pt_tmp[1]  
+                    y_pos[j+1] = pt_tmp[1]
+                    
+            
+        if self.PointCmp([x_pos[num-1],y_pos[num-1]],[x_pos[0],y_pos[0]], centerO):
+            pt_tmp= [x_pos[0],y_pos[0]]
+            x_pos[0] = x_pos[num-1]
+            y_pos[0] = y_pos[num-1]
+            x_pos[num-1] = pt_tmp[0]
+            y_pos[num-1] = pt_tmp[1]
+            
+            for i in range(num):
+                for j in range(num-i-1):
+                    if self.PointCmp([x_pos[j],y_pos[j]],[x_pos[j+1],y_pos[j+1]], centerO):                    
+                        pt_tmp= [x_pos[j],y_pos[j]]
+                        x_pos[j] = x_pos[j+1]
+                        y_pos[j] = y_pos[j+1]
+                        x_pos[j+1] = pt_tmp[0]
+                        y_pos[j+1] = pt_tmp[1]                              
+                 
         return  x_pos,y_pos
     
     def PointCmp(self,pt1,pt2,centerO):
         #向量叉乘
         det = (pt1[0] - centerO[0])*(pt2[1] - centerO[1])- (pt1[1] - centerO[1])*(pt2[0] - centerO[0])
+        
         if det < 0:
             return True
         if det > 0:
